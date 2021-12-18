@@ -1,6 +1,6 @@
 import {parseInput} from "../util/Parser.ts";
 
-const input: string[] = (await parseInput("./input.txt")).split("\n");
+const input: string[] = (await parseInput(Deno.args[0])).split("\n");
 
 function part1(): number {
     let gammaRate = "";
@@ -28,7 +28,6 @@ function part1(): number {
         epsilonRate += metValues.metOne > metValues.metZero ? "0" : "1";
     }
 
-    console.log(gammaRate);
     return Number.parseInt(gammaRate, 2) * Number.parseInt(epsilonRate, 2);
 }
 

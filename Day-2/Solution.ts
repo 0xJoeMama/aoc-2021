@@ -1,6 +1,6 @@
 import {parseInput} from "../util/Parser.ts";
 
-const input: string = await parseInput("input.txt");
+const input: string[] = (await parseInput(Deno.args[0])).split('\n');
 
 function part1(): number {
     const position = {
@@ -8,7 +8,7 @@ function part1(): number {
         depth: 0,
     };
 
-    for (const line of input.split("\n").map((line) => line.split(" "))) {
+    for (const line of input.map((line) => line.split(" "))) {
         const direction: string = line[0];
         const steps: number = Number.parseInt(line[1]);
 
@@ -35,7 +35,7 @@ function part2(): number {
         depth: 0,
         aim: 0,
     };
-    for (const line of input.split("\n").map((line) => line.split(" "))) {
+    for (const line of input.map((line) => line.split(" "))) {
         const direction: string = line[0];
 
         const steps: number = Number.parseInt(line[1]);
