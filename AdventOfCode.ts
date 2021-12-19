@@ -6,7 +6,7 @@
  */
 import ProcessStatus = Deno.ProcessStatus;
 
-function main() {
+async function main() {
     async function runDay(day: number): Promise<ProcessStatus> {
         const proc = Deno.run({
             cmd: [
@@ -17,7 +17,7 @@ function main() {
         return await proc.status();
     }
 
-    function enterGuidedMode() {
+    async function enterGuidedMode() {
         const day = prompt('Which day do you want to execute? Enter a value: ');
         runDay(Number.parseInt(day ? day : "")).then(() => console.log("Done!"));
     }
@@ -31,9 +31,11 @@ function main() {
             console.log(`Running Day ${day} through terminal.`);
             console.log("ASSUMING INPUT EXISTS AND HASN'T CHANGED");
 
-            runDay(day).then(() => console.log(`Day ${day} is done!`));
+            await runDay(day);
+            console.log(`Day ${day} is done!`);
+            console.log("=======================");
         }
     }
 }
 
-main();
+await main();
