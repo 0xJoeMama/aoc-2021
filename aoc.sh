@@ -2,10 +2,16 @@
 
 set -e
 
-if [ $# -eq 0 ]
+COMMAND="deno run --allow-run --allow-read ./AdventOfCode.ts"
+
+if [ $# -eq 0 ];
 then
-    deno run --allow-run --allow-read ./AdventOfCode.ts
+    $COMMAND
     exit
+elif [ $# -eq 1 ] && [ "$1" == "all" ];
+then
+   $COMMAND all
+   exit
 fi
 
-deno run --allow-run --allow-read ./AdventOfCode.ts "$@"
+$COMMAND "$@"
