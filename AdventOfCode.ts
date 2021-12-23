@@ -7,11 +7,15 @@
 import ProcessStatus = Deno.ProcessStatus;
 
 async function main() {
-    async function runDay(day: number): Promise<ProcessStatus> {
+    async function runDay(day: number, test = false): Promise<ProcessStatus> {
         console.log(`Running Day ${day}`);
         const proc = Deno.run({
             cmd: [
-                "deno", "run", "--allow-read", `Day-${day}/Solution.ts`, `${Deno.cwd()}/Day-${day}/input.txt`
+                "deno",
+                "run",
+                "--allow-read",
+                `Day-${day}/Solution.ts`,
+                `${Deno.cwd()}/Day-${day}/${test ? 'sample.txt' : 'input.txt'}`
             ]
         });
 
@@ -52,7 +56,6 @@ async function main() {
         switch (Deno.args[0].toLowerCase()) {
             case 'all': {
                 const allDays: number[] = await getAllExistingDays();
-
                 await runDays(allDays.sort((num1, num2) => num1 - num2));
                 break;
             }
