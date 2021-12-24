@@ -23,16 +23,6 @@ class Board {
         xSize: 5,
         ySize: 5
     };
-
-    static createAllBoards(): Set<Board> {
-        const ret: Set<Board> = new Set<Board>();
-        Board.boardStrings.forEach((_, index) => {
-            ret.add(new Board(index));
-        });
-
-        return ret;
-    }
-
     private readonly _index: number;
     private readonly _cells: Map<number, Position>;
 
@@ -46,21 +36,17 @@ class Board {
         return this._index;
     }
 
-    private initializeCells() {
-        const boardString = Board.boardStrings[this._index];
-
-        for (let i = 0, lines = boardString.split(/,/); i < lines.length; i++) {
-            for (let j = 0, cells = lines[i].split(/ /).filter(it => it !== ''); j < cells.length; j++) {
-                this._cells.set(Number.parseInt(cells[j]), {
-                    x: j,
-                    y: i
-                });
-            }
-        }
-    }
-
     get cells() {
         return this._cells;
+    }
+
+    static createAllBoards(): Set<Board> {
+        const ret: Set<Board> = new Set<Board>();
+        Board.boardStrings.forEach((_, index) => {
+            ret.add(new Board(index));
+        });
+
+        return ret;
     }
 
     /**
@@ -82,6 +68,19 @@ class Board {
         return lastRng * [...this.cells.entries()].filter(cell => cell[1] !== nullPos)
             .map(it => it[0])
             .reduce((acc, val) => acc + val);
+    }
+
+    private initializeCells() {
+        const boardString = Board.boardStrings[this._index];
+
+        for (let i = 0, lines = boardString.split(/,/); i < lines.length; i++) {
+            for (let j = 0, cells = lines[i].split(/ /).filter(it => it !== ''); j < cells.length; j++) {
+                this._cells.set(Number.parseInt(cells[j]), {
+                    x: j,
+                    y: i
+                });
+            }
+        }
     }
 
     private checkIfWon(): boolean {
