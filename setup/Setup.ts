@@ -9,16 +9,22 @@ if (key === undefined) {
     throw new Error('Could not parse `key.cfg` file or could not locate `session=` value!!')
 }
 
-export class Day {
+export class Setup {
     private readonly index: number;
 
     constructor(index: number) {
         this.index = index;
     }
 
+    private static async createLocallyAccessibleFiles(dayPath: string) {
+        await Deno.mkdir(dayPath);
+        await Deno.copyFile(`${Deno.cwd()}/Day-n/Solution.ts.template`, `${dayPath}/Solution.ts`);
+        await Deno.copyFile(`${Deno.cwd()}/Day-n/run.sh`, `${dayPath}/run.sh`);
+    }
+
     async create(key: string) {
         const dayPath = `${Deno.cwd()}/../Day-${this.index}`;
-        await Day.createLocallyAccessibleFiles(dayPath);
+        await Setup.createLocallyAccessibleFiles(dayPath);
         const encoder = new TextEncoder();
 
         await this.requestProblemDescription(key, encoder, dayPath);
@@ -49,12 +55,6 @@ export class Day {
         const dataBuffer: Uint8Array = encoder.encode(await problemResponse.text());
         await Deno.writeFile(`${dayPath}/Problem.html`, dataBuffer);
     }
-
-    private static async createLocallyAccessibleFiles(dayPath: string) {
-        await Deno.mkdir(dayPath);
-        await Deno.copyFile(`${Deno.cwd()}/Day-n/Solution.ts.template`, `${dayPath}/Solution.ts`);
-        await Deno.copyFile(`${Deno.cwd()}/Day-n/run.sh`, `${dayPath}/run.sh`);
-    }
 }
 
 const utilMain = async () => {
@@ -64,7 +64,7 @@ const utilMain = async () => {
         day = Number.parseInt(prompt('What day would you like to setup? ') ?? "");
     }
 
-    const dayInstance = new Day(day);
+    const dayInstance = new Setup(day);
     await dayInstance.create(key);
 };
 
