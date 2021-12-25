@@ -31,12 +31,9 @@ function part2(): number {
 
     for (let i = crabPoses.reduce((acc, it) => acc < it ? it : acc); i >= 0; i--) {
         usages[i] = calculateFuel(i, crabPoses, (pos, crabPos) => {
-            let ret = 0;
-            for (let i = 0; i <= Math.abs(pos - crabPos); i++) {
-                ret += i;
-            }
-
-            return ret;
+            const diff = Math.abs(pos - crabPos);
+            // Triangle number
+            return (diff * (diff + 1)) / 2
         });
     }
 
