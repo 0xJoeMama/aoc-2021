@@ -2,4 +2,4 @@
 
 set -xe
 
-deno run --allow-read --allow-write --allow-net Setup.ts
+deno run --allow-read --allow-write --allow-net ./Setup.ts
