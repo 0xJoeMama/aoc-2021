@@ -61,9 +61,7 @@ const aocMain = async () => {
             }
             case "latest": {
                 getAllExistingDays().then((res) => {
-                    runDay(res.reduce(
-                        (prev, curr) => curr > prev ? curr : prev,
-                    ));
+                    runDay(res.reduce((prev, curr) => curr > prev ? curr : prev));
                 });
                 break;
             }
