@@ -1,4 +1,5 @@
 import {parseInput} from "../util/Parser.ts";
+import {sum} from "../util/Util.ts";
 
 const input: string[] = (await parseInput(Deno.args[0])).split("\n");
 const randomNumbers = input[0].split(',').map(it => Number.parseInt(it));
@@ -67,7 +68,7 @@ class Board {
     countScore(lastRng: number): number {
         return lastRng * [...this.cells.entries()].filter(cell => cell[1] !== nullPos)
             .map(it => it[0])
-            .reduce((acc, val) => acc + val);
+            .reduce(sum);
     }
 
     private initializeCells() {

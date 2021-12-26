@@ -1,11 +1,12 @@
 import {parseInput} from "../util/Parser.ts";
+import {sum} from "../util/Util.ts";
 
 const input: string[] = (await parseInput(Deno.args[0])).split(/\n/).filter(it => it !== '');
 
 type FuelFormula = (pos: number, crabPos: number) => number;
 
 function calculateFuel(pos: number, crabPoses: number[], fuelCalc: FuelFormula): number {
-    return crabPoses.map(it => fuelCalc(pos, it)).reduce((acc, val) => acc + val);
+    return crabPoses.map(it => fuelCalc(pos, it)).reduce(sum);
 }
 
 function part1(): number {

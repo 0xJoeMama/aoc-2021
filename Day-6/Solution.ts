@@ -1,4 +1,5 @@
 import {parseInput} from "../util/Parser.ts";
+import {sum} from "../util/Util.ts";
 
 const input: string[] = (await parseInput(Deno.args[0])).split(/\n/).filter(it => it !== '');
 
@@ -31,7 +32,7 @@ function part1(): number {
         newFishMap = {};
     }
 
-    return Object.values(fishMap).reduce((acc, val) => acc + val);
+    return Object.values(fishMap).reduce(sum);
 }
 
 console.log(`Part 1 : ${part1()}`);
@@ -50,7 +51,7 @@ function part2(): number {
         newFishMap = {};
     }
 
-    return Object.values(fishMap).reduce((acc, val) => acc + val);
+    return Object.values(fishMap).reduce(sum);
 }
 
 console.log(`Part 2 : ${part2()}`);
