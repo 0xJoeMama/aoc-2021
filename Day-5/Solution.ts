@@ -78,4 +78,4 @@ function part2(): number {
     return count(map);
 }
 
-console.log(`Part 1 : ${part2()}`);
+console.log(`Part 2 : ${part2()}`);
