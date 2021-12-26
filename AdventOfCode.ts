@@ -42,7 +42,7 @@ const aocMain = async () => {
         const allDays: number[] = [];
 
         for await (const dir of Deno.readDir(Deno.cwd())) {
-            const dayStr = "Setup-";
+            const dayStr = "Day-";
             if (dir.name.startsWith(dayStr)) {
                 allDays.push(Number.parseInt(dir.name.substring(dayStr.length)));
             }
