@@ -2,10 +2,6 @@ import {parseInput} from "../util/Parser.ts";
 
 const input: string[] = (await parseInput(Deno.args[0])).split(/\n/).filter(it => it !== '');
 
-type UsageMap = {
-    [pos: number]: number;
-};
-
 type FuelFormula = (pos: number, crabPos: number) => number;
 
 function calculateFuel(pos: number, crabPoses: number[], fuelCalc: FuelFormula): number {
@@ -14,30 +10,38 @@ function calculateFuel(pos: number, crabPoses: number[], fuelCalc: FuelFormula):
 
 function part1(): number {
     const crabPoses: number[] = input.join().split(/,/).map(it => Number.parseInt(it));
-    const usages: UsageMap = {};
+    let leastFuelUsage = -1;
 
     for (let i = crabPoses.reduce((acc, it) => acc < it ? it : acc); i >= 0; i--) {
-        usages[i] = calculateFuel(i, crabPoses, (pos, crabPos) => Math.abs(pos - crabPos));
+        const currentFuelUsage = calculateFuel(i, crabPoses, (pos, crabPos) => Math.abs(pos - crabPos));
+
+        if (leastFuelUsage === -1 || currentFuelUsage < leastFuelUsage) {
+            leastFuelUsage = currentFuelUsage;
+        }
     }
 
-    return Object.values(usages).reduce((acc, val) => acc > val ? val : acc);
+    return leastFuelUsage ?? -1;
 }
 
 console.log(`Part 1 : ${part1()}`);
 
 function part2(): number {
     const crabPoses: number[] = input.join().split(/,/).map(it => Number.parseInt(it));
-    const usages: UsageMap = {};
+    let leastFuelUsage = -1;
 
     for (let i = crabPoses.reduce((acc, it) => acc < it ? it : acc); i >= 0; i--) {
-        usages[i] = calculateFuel(i, crabPoses, (pos, crabPos) => {
-            const diff = Math.abs(pos - crabPos);
+        const currentFuelUsage = calculateFuel(i, crabPoses, (pos, crabPos) => {
+            const dx = Math.abs(pos - crabPos);
             // Triangle number
-            return (diff * (diff + 1)) / 2
+            return (dx * (dx + 1)) / 2
         });
+
+        if (leastFuelUsage === -1 || currentFuelUsage < leastFuelUsage) {
+            leastFuelUsage = currentFuelUsage;
+        }
     }
 
-    return Object.values(usages).reduce((acc, val) => acc > val ? val : acc);
+    return leastFuelUsage ?? -1;
 }
 
 console.log(`Part 1 : ${part2()}`);
