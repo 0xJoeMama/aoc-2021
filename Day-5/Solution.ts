@@ -7,6 +7,8 @@ type Position = {
     y: number;
 };
 
+type Map = { [pos: string]: number; };
+
 const toString = (pos: Position) => `(${pos.x}, ${pos.y})`;
 const count = (map: Map) => Object.values(map).filter(it => it >= 2).length;
 
@@ -52,8 +54,6 @@ const insertPosesToMap = (coordPair: [Position, Position], map: Map) => {
         map[toString(pos)] = (map[toString(pos)] ?? 0) + 1;
     }
 }
-
-type Map = { [pos: string]: number; };
 
 function part1(): number {
     const coords: [Position, Position][] = input.map(it => it.split(/->/).map(s => s.trim()))

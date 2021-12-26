@@ -55,7 +55,6 @@ class Board {
      * @param number The number to cross out
      */
     crossOut(number: number): boolean {
-        // console.assert(false, 'TODO: Not implemented yet');
         if (this._cells.get(number) !== nullPos) {
             this.cells.set(number, nullPos);
 

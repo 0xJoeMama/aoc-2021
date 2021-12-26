@@ -7,7 +7,7 @@
 import ProcessStatus = Deno.ProcessStatus;
 
 const aocMain = async () => {
-    async function runDay(day: number, args: string[] = [ 'input.txt' ]): Promise<ProcessStatus> {
+    async function runDay(day: number, args: string[] = ['input.txt']): Promise<ProcessStatus> {
         console.log(`Running Day ${day}`);
         const proc = Deno.run({
             cmd: [
@@ -32,7 +32,7 @@ const aocMain = async () => {
             console.log(`Running Day ${day} through terminal.`);
             console.log("ASSUMING INPUT EXISTS AND HASN'T CHANGED");
 
-            await runDay(day);
+            await runDay(day, [`Day-${day}/input.txt`]);
             console.log(`Day ${day} is done!`);
             console.log("=======================");
         }
@@ -61,7 +61,7 @@ const aocMain = async () => {
             }
             case "latest": {
                 getAllExistingDays().then((res) => {
-                    runDay(res.reduce((prev, curr) => curr > prev ? curr : prev), Deno.args.slice(1));
+                    runDay(res.reduce((prev, curr) => curr > prev ? curr : prev));
                 });
                 break;
             }
