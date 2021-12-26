@@ -1,11 +1,10 @@
 export const parseInput: (path: string) => Promise<string> = async (path) => {
-    let input = ""
+    let input: string | undefined;
+    const decoder = new TextDecoder();
 
     await Deno.readFile(path).then(content => {
-        content.forEach(code => {
-            input += String.fromCharCode(code.valueOf())
-        })
-    })
+        input = decoder.decode(content);
+    });
 
-    return input
+    return input ?? '';
 }
