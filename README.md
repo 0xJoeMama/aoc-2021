@@ -21,4 +21,4 @@ If you want to run any day, use `make one` and type in the day you want.
 
 ---
 
-This project is licensed under the [GNU General Public License](https://www.gnu.org/licenses/gpl-3.0.html).
+This project is licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html).
