@@ -1,13 +1,15 @@
 import {parseInput} from "../util/Parser.ts";
 
-const input: string[] = (await parseInput(Deno.args[0])).split("\n");
+const input: string[] = (await parseInput(Deno.args[0]))
+    .split("\n")
+    .filter(it => it !== '');
 
 function part1(): number {
     let increased = 0;
-    let lastValue: number | null = null;
+    let lastValue = -1;
 
     for (const value of input.map((string) => Number.parseInt(string))) {
-        if (lastValue == null) {
+        if (lastValue < 0) {
             lastValue = value;
             continue;
         }

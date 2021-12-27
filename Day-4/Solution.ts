@@ -1,13 +1,8 @@
 import {parseInput} from "../util/Parser.ts";
-import {sum} from "../util/Util.ts";
+import {Position, sum} from "../util/Util.ts";
 
 const input: string[] = (await parseInput(Deno.args[0])).split("\n");
 const randomNumbers = input[0].split(',').map(it => Number.parseInt(it));
-
-type Position = {
-    x: number,
-    y: number;
-};
 
 const nullPos: Position = {
     x: -1,
@@ -57,7 +52,6 @@ class Board {
     crossOut(number: number): boolean {
         if (this._cells.get(number) !== nullPos) {
             this.cells.set(number, nullPos);
-
             return this.checkIfWon();
         } else {
             throw new Error(`Number ${number} has already been crossed out on board ${this._index}`);

@@ -1,17 +1,12 @@
 import {parseInput} from "../util/Parser.ts";
+import {Position, posToString} from "../util/Util.ts";
 
 const input: string[] = (await parseInput(Deno.args[0])).split(/\n/).filter(it => it !== '');
-
-type Position = {
-    x: number,
-    y: number;
-};
 
 type Map = {
     [pos: string]: number;
 };
 
-const toString = (pos: Position) => `(${pos.x}, ${pos.y})`;
 const count = (map: Map) => Object.values(map).filter(it => it >= 2).length;
 
 function createCoordPair(sPair: string[]): [Position, Position] {
@@ -53,7 +48,7 @@ const insertPosesToMap = (coordPair: [Position, Position], map: Map) => {
             y: coordPair[0].y - j
         };
 
-        map[toString(pos)] = (map[toString(pos)] ?? 0) + 1;
+        map[posToString(pos)] = (map[posToString(pos)] ?? 0) + 1;
     }
 }
 

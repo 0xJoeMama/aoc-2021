@@ -1,6 +1,8 @@
 import {parseInput} from "../util/Parser.ts";
 
-const input: string[] = (await parseInput(Deno.args[0])).split('\n');
+const input: string[] = (await parseInput(Deno.args[0]))
+    .split('\n')
+    .filter(it => it !== '');
 
 function part1(): number {
     const position = {

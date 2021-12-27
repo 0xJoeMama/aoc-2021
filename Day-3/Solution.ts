@@ -57,7 +57,7 @@ function part2(): number {
         if (ones.length >= (nums.length - ones.length)) {
             return o2(ones, totalDepth, depth + 1);
         } else {
-            return o2(nums.filter(bin => ones.indexOf(bin) == -1), totalDepth, depth + 1);
+            return o2(nums.filter(bin => !ones.includes(bin)), totalDepth, depth + 1);
         }
     }
 
@@ -79,7 +79,7 @@ function part2(): number {
         if (zeros.length <= (nums.length - zeros.length)) {
             return co2(zeros, totalDepth, depth + 1);
         } else {
-            return co2(nums.filter(bin => zeros.indexOf(bin) == -1), totalDepth, depth + 1);
+            return co2(nums.filter(bin => !zeros.includes(bin)), totalDepth, depth + 1);
         }
     }
 

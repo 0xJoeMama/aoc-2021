@@ -1,7 +1,9 @@
 import {parseInput} from "../util/Parser.ts";
 import {sum} from "../util/Util.ts";
 
-const input: string[] = (await parseInput(Deno.args[0])).split(/\n/).filter(it => it !== '');
+const input: string[] = (await parseInput(Deno.args[0]))
+    .split(/\n/)
+    .filter(it => it !== '');
 
 type FishMap = {
     [fishNumber: number]: number

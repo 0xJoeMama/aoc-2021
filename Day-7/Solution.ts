@@ -23,7 +23,7 @@ function part1(): number {
         }
     }
 
-    return leastFuelUsage ?? -1;
+    return leastFuelUsage;
 }
 
 console.log(`Part 1 : ${part1()}`);
