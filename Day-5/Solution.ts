@@ -7,7 +7,9 @@ type Position = {
     y: number;
 };
 
-type Map = { [pos: string]: number; };
+type Map = {
+    [pos: string]: number;
+};
 
 const toString = (pos: Position) => `(${pos.x}, ${pos.y})`;
 const count = (map: Map) => Object.values(map).filter(it => it >= 2).length;

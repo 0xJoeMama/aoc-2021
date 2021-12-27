@@ -1,5 +1,5 @@
 import {parseInput} from "../util/Parser.ts";
-import {sum} from "../util/Util.ts";
+import {greatest, sum} from "../util/Util.ts";
 
 const input: string[] = (await parseInput(Deno.args[0])).split(/\n/).filter(it => it !== '');
 
@@ -10,10 +10,12 @@ function calculateFuel(pos: number, crabPoses: number[], fuelCalc: FuelFormula):
 }
 
 function part1(): number {
-    const crabPoses: number[] = input.join().split(/,/).map(it => Number.parseInt(it));
+    const crabPoses: number[] = input.join()
+        .split(/,/)
+        .map(it => Number.parseInt(it));
     let leastFuelUsage = -1;
 
-    for (let i = crabPoses.reduce((acc, it) => acc < it ? it : acc); i >= 0; i--) {
+    for (let i = crabPoses.reduce(greatest); i >= 0; i--) {
         const currentFuelUsage = calculateFuel(i, crabPoses, (pos, crabPos) => Math.abs(pos - crabPos));
 
         if (leastFuelUsage === -1 || currentFuelUsage < leastFuelUsage) {
@@ -30,7 +32,7 @@ function part2(): number {
     const crabPoses: number[] = input.join().split(/,/).map(it => Number.parseInt(it));
     let leastFuelUsage = -1;
 
-    for (let i = crabPoses.reduce((acc, it) => acc < it ? it : acc); i >= 0; i--) {
+    for (let i = crabPoses.reduce(greatest); i >= 0; i--) {
         const currentFuelUsage = calculateFuel(i, crabPoses, (pos, crabPos) => {
             const dx = Math.abs(pos - crabPos);
             // Triangle number
