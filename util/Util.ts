@@ -5,3 +5,4 @@ export const flatten = <A>(acc: A[], it: A[]) => {
     return acc;
 };
 export const product = (acc: number, it: number) => acc * it;
+export const largestToSmallest = (num1: number, num2: number) => num2 - num1;
