@@ -11,11 +11,9 @@ type Key = {
 
 function part1(): number {
     const uniqueLengths = [2, 4, 3, 7];
-    const uniqueFilter = (it: string, _: number, __: string[]) =>
-        uniqueLengths.findIndex(itt => itt === it.length) !== -1;
     return input.map(it => it.split(/\|/))
         .map(it => it[1])
-        .map(it => it.trim().split(/ /).filter(uniqueFilter))
+        .map(it => it.trim().split(/ /).filter(num => uniqueLengths.includes(num.length)))
         .reduce((acc, it) => acc + it.length, 0);
 }
 
