@@ -1,5 +1,5 @@
 import {parseInput} from "../util/Parser.ts";
-import {flatten, largestToSmallest, Position, product, sum, posToString} from "../util/Util.ts";
+import {flatten, largestToSmallest, Position, posToString, product, sum} from "../util/Util.ts";
 
 const input: string[] = (await parseInput(Deno.args[0]))
     .split(/\n/)
@@ -60,7 +60,8 @@ function part2(): number {
     return numbers
         .map((it, x) => it
             .map((_, y) => createPos(x, y))
-            .filter(pos => isLow(pos, numbers)))
+            .filter(pos => isLow(pos, numbers))
+        )
         .reduce(flatten, []).map(point => getBasin(point, numbers))
         .map(it => Object.keys(it).length)
         .sort(largestToSmallest)

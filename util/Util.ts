@@ -16,3 +16,4 @@ export type Position = {
 };
 
 export const posToString = (pos: Position) => `(${pos.x}, ${pos.y})`;
+export const posEq = (pos1: Position, pos2: Position) => pos1.x === pos2.x && pos1.y === pos2.y;
