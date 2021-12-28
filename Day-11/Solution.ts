@@ -1,5 +1,5 @@
 import {parseInput} from "../util/Parser.ts";
-import {flatten, posEq, Position, posToString} from "../util/Util.ts"
+import {flatten, forr, posEq, Position, posToString} from "../util/Util.ts"
 
 const input: string[] = (await parseInput(Deno.args[0]))
     .split(/\n/)
@@ -80,9 +80,7 @@ function part1(): number {
     const grid: Grid = createGrid(input);
     let flashes = 0;
 
-    for (let i = 0; i < 100; i++) {
-        step(grid, () => flashes++);
-    }
+    forr(0, 100, () => step(grid, () => flashes++));
     return flashes;
 }
 

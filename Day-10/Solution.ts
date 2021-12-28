@@ -12,7 +12,7 @@ const chunkMap: { [opening: string]: string } = {
     '{': '}'
 };
 const openingTokens = Object.keys(chunkMap);
-const peek = <T> (stack: T[]): T => stack[stack.length - 1];
+const peek = <T>(stack: T[]): T => stack[stack.length - 1];
 
 function part1(): number {
     const illegalValueMap: { [closing: string]: number } = {
