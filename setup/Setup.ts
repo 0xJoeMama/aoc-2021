@@ -20,6 +20,7 @@ export class Setup {
         await Deno.mkdir(dayPath);
         await Deno.copyFile(`${Deno.cwd()}/Day-n/Solution.ts.template`, `${dayPath}/Solution.ts`);
         await Deno.copyFile(`${Deno.cwd()}/Day-n/run.sh`, `${dayPath}/run.sh`);
+        await Deno.create(`${dayPath}/sample.txt`);
     }
 
     async create(key: string) {
