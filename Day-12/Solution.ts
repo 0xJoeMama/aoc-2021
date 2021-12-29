@@ -14,28 +14,23 @@ class Cave implements Stringable {
         this.isBig = value === value.toUpperCase();
     }
 
-    addChild(child: Cave) {
-        this._children.push(child);
-    }
+    toString = () => `${this.value}`;
+    addChild = (child: Cave) => this._children.push(child);
 
     get children(): Cave[] {
         return this._children;
     }
-
-    toString = () => `${this.value}`;
 }
 
-const parseCaveMap = (input: string[]) => {
-    const caves: StringMap<string, Cave> = new StringMap();
-    input.map(connection => connection.split(/-/))
-        .forEach(cavePair => {
-            const cave1: Cave = caves.get(cavePair[0]) ?? caves.put(cavePair[0], new Cave(cavePair[0]));
-            const cave2: Cave = caves.get(cavePair[1]) ?? caves.put(cavePair[1], new Cave(cavePair[1]));
-            cave1.addChild(cave2);
-            cave2.addChild(cave1);
-        });
-    return caves;
-}
+const parseCaveMap = (input: string[]) => input.map(connection => connection.split(/-/))
+    .reduce((acc, [begin, end]) => {
+        const cave1: Cave = acc.get(begin) ?? acc.put(begin, new Cave(begin));
+        const cave2: Cave = acc.get(end) ?? acc.put(end, new Cave(end));
+        cave1.addChild(cave2);
+        cave2.addChild(cave1);
+        return acc;
+    }, new StringMap<string, Cave>());
+
 
 function part1(): number {
     const findPaths = (start: Cave, visited: StringSet<Cave>, callback: () => void) => {
@@ -61,24 +56,16 @@ console.log(`Part 1 : ${part1()}`);
 
 function part2(): number {
     const findPaths = (start: Cave, visited: StringMap<Cave, number>, callback: () => void) => {
-        const canDoDouble = visited.entriesStringKeys()
-            .filter(it => it[0] !== it[0].toUpperCase())
-            .filter(it => it[0] !== start.value)
-            .map(it => it[1])
-            .every(timesVisited => timesVisited < 2);
-
-        if (!start.isBig && (visited.get(start) ?? 0) === 1 && !canDoDouble) {
-            return;
-        }
-
         if (start.value === 'end') {
             callback();
             return;
         }
 
+        const canDoDouble = visited.entriesStringKeys().filter(it => it[0] !== it[0].toUpperCase())
+            .filter(it => it[0] !== start.value).map(it => it[1]).every(timesVisited => timesVisited < 2);
+        if (!start.isBig && (visited.get(start) ?? 0) === 1 && !canDoDouble) return;
         const validChildren = start.children
-            .filter(it => it.value !== 'start')
-            .filter(it => it.isBig || (visited.get(it) ?? 0) < 2);
+            .filter(it => it.value !== 'start' && (it.isBig || (visited.get(it) ?? 0) < 2));
 
         visited.put(start, (visited.get(start) ?? 0) + 1);
         validChildren.forEach(child => {

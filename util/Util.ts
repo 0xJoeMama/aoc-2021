@@ -12,7 +12,6 @@ export const forr = (begin: number, end: number, consumer: (i: number) => void):
     consumer(begin);
     return begin + 1 < end ? forr(begin + 1, end, consumer) : begin;
 };
-export const copyObj = <T> (obj: T): T => JSON.parse(JSON.stringify(obj));
 
 // Position related functions
 export type Position = {
