@@ -13,12 +13,17 @@ export const forr = (begin: number, end: number, consumer: (i: number) => void):
     return begin + 1 < end ? forr(begin + 1, end, consumer) : begin;
 };
 
-// Position related functions
-export type Position = {
-    x: number,
-    y: number;
-};
+export class Position extends Object implements Stringable {
+    constructor(public x: number, public y: number) {
+        super();
+    }
 
+    toString(): string {
+        return `(${this.x}, ${this.y})`
+    }
+}
+
+export const createPos = (x: number, y: number): Position => new Position(x, y);
 export const posToString = (pos: Position) => `(${pos.x}, ${pos.y})`;
 export const posEq = (pos1: Position, pos2: Position) => pos1.x === pos2.x && pos1.y === pos2.y;
 
@@ -50,7 +55,7 @@ export class StringMap<K extends Stringable, V> {
         this$.get = this.get;
         this$.put = this.put;
         this$.values = this.values;
-        this$.entriesStringKeys = this.entriesStringKeys;
+        this$.entries = this.entries;
 
         return this$;
     }
@@ -63,7 +68,7 @@ export class StringMap<K extends Stringable, V> {
         return Object.values(this._values);
     }
 
-    entriesStringKeys(): [string, V][] {
+    entries(): [string, V][] {
         return Object.entries(this._values);
     }
 }
@@ -99,5 +104,22 @@ export class StringSet<E extends Stringable> {
         this$.map.put = this.map.put;
 
         return this$;
+    }
+}
+
+export class HashSet<E extends Stringable> {
+    private readonly values: { [key: string]: E ; } = {};
+
+    add(el: E): E {
+        this.values[el.toString()] = el;
+        return el;
+    }
+
+    contains(el: E): boolean {
+        return this.values[el.toString()] !== null;
+    }
+
+    get size() {
+        return Object.values(this.values).length;
     }
 }

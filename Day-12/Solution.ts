@@ -61,7 +61,7 @@ function part2(): number {
             return;
         }
 
-        const canDoDouble = visited.entriesStringKeys().filter(it => it[0] !== it[0].toUpperCase())
+        const canDoDouble = visited.entries().filter(it => it[0] !== it[0].toUpperCase())
             .filter(it => it[0] !== start.value).map(it => it[1]).every(timesVisited => timesVisited < 2);
         if (!start.isBig && (visited.get(start) ?? 0) === 1 && !canDoDouble) return;
         const validChildren = start.children
