@@ -14,76 +14,57 @@ const parseInsertions = (insertions: string[]): InsertionMap => {
 
     while (insertions.length > 0) {
         const [pair, insert] = (insertions.pop() ?? '').split(/->/).map(it => it.trim());
-        ret[pair] = insert;
+        ret[pair] = pair.split('').join(insert);
     }
 
     return ret;
-}
+};
 
-const step = (polymer: string[], insertionRecipes: InsertionMap, tracked: InsertionMap) => {
+const step = (polymer: string[], insertionRecipes: InsertionMap): string[] => {
     const polyString = polymer.join('');
-    const insertions: { [index: number]: string } = {};
 
-    let lastIndex = 0;
-    Object.entries(tracked).forEach(([input, result]) => {
-        const index = polyString.indexOf(input);
-        if (index >= 0) {
-            insertions[index] = result;
-            lastIndex += input.length;
-        }
-    });
-    for (let i = 0; i < polymer.length; i++) {
-        const atom1 = polymer[i];
-        const atom2 = polymer[i + 1];
-        const insert = insertionRecipes[[atom1, atom2].join('')];
-
-        if (insert !== undefined) {
-            insertions[i + 1] = insert;
-        }
+    if (insertionRecipes[polyString] !== undefined || polyString.length === 2) {
+        return insertionRecipes[polyString].split('') ?? polyString;
     }
 
-    let inserted = 0;
-    Object.entries(insertions).filter(([_, atoms]) => atoms.length === 1).forEach(([index, atom]) => {
-        polymer.splice(Number.parseInt(index) + inserted, 0, atom);
-        inserted++;
-    });
-    tracked[polyString] = polymer.join('');
+    const firstMol = [...step(polymer.slice(0, Math.floor(polymer.length / 2) + 1), insertionRecipes)];
+    firstMol.pop();
+    const newPolymer: string[] = [
+        ...firstMol,
+        ...step(polymer.slice(Math.floor(polymer.length / 2)), insertionRecipes)
+    ];
+    insertionRecipes[polyString] = newPolymer.join('');
+    return newPolymer;
 };
 
 const countAtoms = (polymer: string[]) => {
     const atomIngredients: { [atom: string]: number } = {};
     polymer.forEach(char => atomIngredients[char] = (atomIngredients[char] ?? 0) + 1);
     return Object.values(atomIngredients).sort(smallestToGreatest);
-}
-
+};
 
 function part1(): number {
-    const polymer = input[0].split('');
+    let polymer = input[0].split('');
     const insertions = parseInsertions(input.slice(1));
-    const tracked: InsertionMap = {};
 
     for (let i = 0; i < 10; i++) {
-        step(polymer, insertions, tracked);
+        polymer = step(polymer, insertions);
     }
 
-    const atomIngredients: { [atom: string]: number } = {};
-    polymer.forEach(char => atomIngredients[char] = (atomIngredients[char] ?? 0) + 1);
-
-    const sortedValues = Object.values(atomIngredients).sort(smallestToGreatest);
-    console.log(atomIngredients);
+    const sortedValues = countAtoms(polymer);
     return sortedValues[sortedValues.length - 1] - sortedValues[0];
 }
 
 console.log(`Part 1 : ${part1()}`);
 
 function part2(): number {
-    const polymer = input[0].split('');
+    let polymer = input[0].split('');
     const insertions = parseInsertions(input.slice(1));
-    const tracked: InsertionMap = {};
 
-    // for (let i = 0; i < 40; i++) {
-    //     step(polymer, insertions, tracked);
-    // }
+    for (let i = 0; i < 40; i++) {
+        console.log(`i = ${i}`);
+        polymer = step(polymer, insertions);
+    }
 
     const sortedValues = countAtoms(polymer);
     return sortedValues[sortedValues.length - 1] - sortedValues[0];
