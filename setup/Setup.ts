@@ -18,17 +18,33 @@ export class Setup {
 
     private static async createLocallyAccessibleFiles(dayPath: string) {
         await Deno.mkdir(dayPath);
-        await Deno.copyFile(`${Deno.cwd()}/Day-n/Solution.ts.template`, `${dayPath}/Solution.ts`);
-        await Deno.copyFile(`${Deno.cwd()}/Day-n/run.sh`, `${dayPath}/run.sh`);
+        await Deno.copyFile(`${Deno.cwd()}/setup/Day-n/Solution.ts.template`, `${dayPath}/Solution.ts`);
+        await Deno.copyFile(`${Deno.cwd()}/setup/Day-n/run.sh`, `${dayPath}/run.sh`);
         await Deno.create(`${dayPath}/sample.txt`);
     }
 
-    async create(key: string) {
-        const dayPath = `${Deno.cwd()}/../Day-${this.index}`;
-        await Setup.createLocallyAccessibleFiles(dayPath);
-        const encoder = new TextEncoder();
+    private async createRunConfig(decoder: TextDecoder, encoder: TextEncoder) {
+        const bytes = await Deno.readFile(`${Deno.cwd()}/setup/Day-n/Solution.ts.run.xml.template`);
+        const fileStr = decoder.decode(bytes);
+        const filePath = `${Deno.cwd()}/.run/Day-${this.index}.run.xml`;
 
-        await this.requestProblemDescription(key, encoder, dayPath);
+        await Deno.mkdir(`${Deno.cwd()}/.run`, {recursive: true});
+        await Deno.writeFile(filePath,
+            encoder.encode(fileStr.replaceAll(/\${}/g, this.index.toString())),
+            {create: true}
+        );
+    }
+
+    async create(key: string) {
+        const dayPath = `${Deno.cwd()}/Day-${this.index}`;
+        const encoder = new TextEncoder();
+        const decoder = new TextDecoder();
+
+        await Setup.createLocallyAccessibleFiles(dayPath);
+
+        await this.createRunConfig(decoder, encoder);
+        // Hippity hoppity this is definately not my property
+        // await this.requestProblemDescription(key, encoder, dayPath);
         await this.requestProblemInput(key, encoder, dayPath);
     }
 
@@ -45,17 +61,17 @@ export class Setup {
         await Deno.writeFile(`${dayPath}/input.txt`, inputData);
     }
 
-    private async requestProblemDescription(key: string, encoder: TextEncoder, dayPath: string) {
-        const problemResponse: Response = await fetch(`https://adventofcode.com/2021/day/${this.index}`, {
-            credentials: 'include',
-            method: 'GET',
-            headers: {
-                Cookie: key
-            }
-        });
-        const dataBuffer: Uint8Array = encoder.encode(await problemResponse.text());
-        await Deno.writeFile(`${dayPath}/Problem.html`, dataBuffer);
-    }
+    // private async requestProblemDescription(key: string, encoder: TextEncoder, dayPath: string) {
+    //     const problemResponse: Response = await fetch(`https://adventofcode.com/2021/day/${this.index}`, {
+    //         credentials: 'include',
+    //         method: 'GET',
+    //         headers: {
+    //             Cookie: key
+    //         }
+    //     });
+    //     const dataBuffer: Uint8Array = encoder.encode(await problemResponse.text());
+    //     await Deno.writeFile(`${dayPath}/Problem.html`, dataBuffer);
+    // }
 }
 
 const utilMain = async () => {
