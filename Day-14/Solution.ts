@@ -58,9 +58,9 @@ const countAtoms = (results: ResultMap): number => {
     });
 
     const sortedValues = Object.values(chars)
-        .map(it => Math.floor(it / 2))
         .sort(smallestToGreatest);
-    return sortedValues[sortedValues.length - 1] - sortedValues[0] - 1
+    // Either one above or one below, can't guarantee lol
+    return Math.floor(sortedValues[sortedValues.length - 1] / 2 - sortedValues[0] / 2);
 };
 
 function part1(): number {
@@ -68,6 +68,7 @@ function part1(): number {
     const insertions = parseInsertions(input.slice(1).map(it => it.trim()).filter(it => it !== ''));
     const res = step(polymer, insertions, 10);
 
+    console.log("If this result doesn't work, try either one above or one below it");
     return countAtoms(res);
 }
 
@@ -75,11 +76,10 @@ console.log(`Part 1 : ${part1()}`);
 
 function part2(): number {
     const polymer = input[0];
-    const insertions = parseInsertions(input.slice(1));
+    const insertions = parseInsertions(input.slice(1).map(it => it.trim()).filter(it => it !== ''));
     const res = step(polymer, insertions, 40);
 
-    // const sortedValues = countAtoms(smth);
-    // return sortedValues[sortedValues.length - 1] - sortedValues[0];
+    console.log("If this result doesn't work, try either one above or one below it");
     return countAtoms(res);
 }
 
