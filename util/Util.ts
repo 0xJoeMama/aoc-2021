@@ -106,20 +106,3 @@ export class StringSet<E extends Stringable> {
         return this$;
     }
 }
-
-export class HashSet<E extends Stringable> {
-    private readonly values: { [key: string]: E ; } = {};
-
-    add(el: E): E {
-        this.values[el.toString()] = el;
-        return el;
-    }
-
-    contains(el: E): boolean {
-        return this.values[el.toString()] !== null;
-    }
-
-    get size() {
-        return Object.values(this.values).length;
-    }
-}

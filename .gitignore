@@ -1,3 +1,9 @@
-.idea
+# Some stuff can't just be shared you know...
+.idea/
+# Also I'm not doxxing myself lol
 key.cfg
-.run
+
+# I could release the runs at some point but for now nahhh..
+.run/
+# No reason to include. It's gonna be deleted either way lol
+tmp/

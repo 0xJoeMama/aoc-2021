@@ -2,6 +2,8 @@
 
 set -e
 
+rm -r -f ./tmp/*
+
 COMMAND="deno run --allow-run --allow-read ./AdventOfCode.ts"
 
 if [ $# -eq 0 ];

@@ -4,52 +4,9 @@
  * @author 0xJoeMama
  * @since 2021
  */
-import ProcessStatus = Deno.ProcessStatus;
+import {getAllExistingDays, runDay, enterGuidedMode, runDays} from "./util/RunUtil.ts"
 
 const aocMain = async () => {
-    async function runDay(day: number, args: string[] = ['input.txt']): Promise<ProcessStatus> {
-        console.log(`Running Day ${day}`);
-        const proc = Deno.run({
-            cmd: [
-                "deno",
-                "run",
-                `--allow-read`,
-                `Day-${day}/Solution.ts`,
-                ...args
-            ],
-        });
-
-        return await proc.status();
-    }
-
-    function enterGuidedMode() {
-        const day = prompt("Which day do you want to execute? Enter a value: ");
-        runDay(Number.parseInt(day ? day : "")).then(() => console.log("Done!"));
-    }
-
-    async function runDays(days: number[]) {
-        for (const day of days) {
-            console.log(`Running Day ${day} through terminal.`);
-            console.log("ASSUMING INPUT EXISTS AND HASN'T CHANGED");
-
-            await runDay(day, [`Day-${day}/input.txt`]);
-            console.log(`Day ${day} is done!`);
-            console.log("=======================");
-        }
-    }
-
-    async function getAllExistingDays() {
-        const allDays: number[] = [];
-
-        for await (const dir of Deno.readDir(Deno.cwd())) {
-            const dayStr = "Day-";
-            if (dir.name.startsWith(dayStr)) {
-                allDays.push(Number.parseInt(dir.name.substring(dayStr.length)));
-            }
-        }
-        return allDays;
-    }
-
     if (Deno.args.length == 0) {
         enterGuidedMode();
     } else if (Deno.args.length >= 1) {

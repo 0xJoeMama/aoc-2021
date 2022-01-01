@@ -6,3 +6,9 @@ one:
 
 latest:
 	./aoc.sh latest
+
+setup:
+	./setup.sh
+
+
+.PHONY: setup all one latest
