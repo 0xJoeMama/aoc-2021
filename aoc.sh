@@ -2,7 +2,7 @@
 
 set -e
 
-rm -r -f ./tmp/*
+rm -rf ./tmp/*
 
 COMMAND="deno run --allow-run --allow-read ./AdventOfCode.ts"
 

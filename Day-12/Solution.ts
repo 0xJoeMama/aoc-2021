@@ -1,5 +1,6 @@
 import {parseInput} from "../util/Parser.ts";
-import {Stringable, StringMap, StringSet} from "../util/Util.ts";
+import {Stringable} from "../util/Util.ts";
+import {StringMap, StringSet} from "../util/DataLib.ts";
 
 const input: string[] = (await parseInput(Deno.args[0]))
     .split(/\n/)

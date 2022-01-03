@@ -1,5 +1,5 @@
 import {parseInput} from "../util/Parser.ts";
-import {flatten, largestToSmallest, Position, posToString, product, sum} from "../util/Util.ts";
+import {flatten, largestToSmallest, Position, posToString, product, sum, posEq} from "../util/Util.ts";
 
 const input: string[] = (await parseInput(Deno.args[0]))
     .split(/\n/)
@@ -15,7 +15,6 @@ const createPos = (x: number, y: number) => {
         y: y
     }
 };
-const areEqual = (pos1: Position, pos2: Position): boolean => pos1.x === pos2.x && pos1.y === pos2.y;
 const isLow = (pos: Position, nums: number[][]) => getNeighbours(nums, pos.x, pos.y)
     .map(neighbour => nums[neighbour.x][neighbour.y])
     .every(it => it > nums[pos.x][pos.y]);
@@ -27,7 +26,7 @@ const getNeighbours = (nums: number[][], x: number, y: number): Position[] => {
         createPos(Math.min(nums.length - 1, x + 1), y),
         createPos(x, Math.max(0, y - 1)),
         createPos(x, Math.min(nums[x].length - 1, y + 1))
-    ].filter(it => !areEqual(pos, it));
+    ].filter(it => !posEq(pos, it));
 };
 
 function part1(): number {
