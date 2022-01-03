@@ -3,6 +3,7 @@ import {Stringable} from "./DataLib.ts";
 
 export const sum = (acc: number, it: number) => acc + it;
 export const greatest = (acc: number, it: number) => it > acc ? it : acc;
+export const smallest = (acc: number, it: number) => it > acc ? acc : it;
 export const flatten = <A>(acc: A[], it: A[]) => {
     acc.push(...it);
     return acc;
