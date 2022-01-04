@@ -8,7 +8,7 @@ export class Setup {
     private static async createLocallyAccessibleFiles(dayPath: string) {
         await Deno.mkdir(dayPath);
         await Deno.copyFile(`${Deno.cwd()}/setup/Day-n/Solution.ts.template`, `${dayPath}/Solution.ts`);
-        await Deno.copyFile(`${Deno.cwd()}/setup/Day-n/run.sh`, `${dayPath}/run.sh`);
+        await Deno.copyFile(`${Deno.cwd()}/setup/Day-n/run.sh.template`, `${dayPath}/run.sh`);
         await Deno.create(`${dayPath}/sample.txt`);
     }
 
