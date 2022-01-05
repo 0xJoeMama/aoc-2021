@@ -51,7 +51,6 @@ function part2(): number {
         return false;
     };
 
-    let counter = 0;
     const found: StringSet<Position> = new StringSet();
     for (let i = 0; i <= area.xEnd; i++) {
         for (let j = Math.abs(area.yEnd); j >= 0; j--) {
@@ -59,11 +58,8 @@ function part2(): number {
             const vOppY = new Position(v.x, -v.y);
             if (canLandIn(area, v)) {
                 found.add(v);
-                counter++;
             }
-
             if (canLandIn(area, vOppY)) {
-                counter++;
                 found.add(vOppY);
             }
         }
