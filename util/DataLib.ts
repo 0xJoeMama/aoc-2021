@@ -81,4 +81,7 @@ export class StringSet<E extends Stringable> {
     }
 
     isEmpty = () => this.map.isEmpty();
+    get length() {
+        return this.map.values().filter(it => it !== 0).length;
+    }
 }
