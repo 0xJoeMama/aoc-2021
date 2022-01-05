@@ -15,7 +15,7 @@ export const forr = (begin: number, end: number, consumer: (i: number) => void):
     consumer(begin);
     return begin + 1 < end ? forr(begin + 1, end, consumer) : begin;
 };
-export const gaussianSum = (n: number) => n * (n - 1) / 2;
+export const gaussianSum = (n: number) => n * (n + 1) / 2;
 
 
 export class Position extends Object implements Stringable {
