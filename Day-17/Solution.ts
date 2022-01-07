@@ -14,8 +14,7 @@ const parseArea = (input: string) => input.substr(input.indexOf(':') + 1)
     .map(val => val.map(it => parseInt(it)));
 
 function part1(): number {
-    const smth: number | undefined = parseArea(input[0])[1]
-        .reduce(smallest);
+    const smth: number | undefined = parseArea(input[0])[1].reduce(smallest);
 
     return gaussianSum(Math.abs(smth ?? -1) - 1);
 }
